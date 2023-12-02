@@ -67,6 +67,12 @@ function blob_fixup() {
         vendor/bin/hw/android.hardware.security.keymint-service-qti | vendor/lib64/libqtikeymint.so)
             "${PATCHELF}" --add-needed android.hardware.security.rkp-V3-ndk.so "${2}"
             ;;
+        odm/lib64/libmt@1.3.so)
+            "${PATCHELF}" --replace-needed "libcrypto.so" "libcrypto-v33.so" "${2}"
+            ;;
+        odm/lib64/hw/displayfeature.default.so)
+            "${PATCHELF}" --replace-needed "libstagefright_foundation.so" "libstagefright_foundation-v33.so" "${2}"
+            ;;        
         vendor/etc/init/hw/init.mi_thermald.rc|vendor/etc/init/hw/init.qcom.usb.rc|vendor/etc/init/hw/init.qti.kernel.rc)
             sed -i 's/on charger/on property:init.svc.vendor.charger=running/g' "${2}"
             ;;
