@@ -5,9 +5,10 @@
 #
 
 # Inherit from the proprietary version
-include vendor/xiaomi/sm8450-common/BoardConfigVendor.mk
+include vendor/xiaomi/xiaomi13/BoardConfigVendor.mk
 
-COMMON_PATH := device/xiaomi/sm8450-common
+COMMON_PATH := device/xiaomi/sm8550-common
+KERNEL_PATH := device/xiaomi/xiaomi13-kernel
 
 BUILD_BROKEN_DUP_RULES := true
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
@@ -18,10 +19,12 @@ AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
     boot \
     dtbo \
+    init_boot \
     odm \
     product \
     recovery \
     system \
+    system_dlkm \
     system_ext \
     vbmeta \
     vbmeta_system \
@@ -62,20 +65,15 @@ TARGET_USES_QCOM_MM_AUDIO := true
 $(call soong_config_set, ufsbsg, ufsframework, bsg)
 
 # Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := taro
+TARGET_BOOTLOADER_BOARD_NAME := kalama
 TARGET_NO_BOOTLOADER := true
 
 # Camera
 TARGET_CAMERA_OVERRIDE_FORMAT_FROM_RESERVED := true
 
-# Display
-TARGET_FORCE_HWC_FOR_VIRTUAL_DISPLAYS := true
-TARGET_GRALLOC_HANDLE_HAS_CUSTOM_CONTENT_MD_RESERVED_SIZE := false
-TARGET_USES_DISPLAY_RENDER_INTENTS := true
-TARGET_USES_GRALLOC4 := true
-TARGET_USES_HWC2 := true
-MAX_VIRTUAL_DISPLAY_DIMENSION := 4096
-NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
+# Dtb/o
+BOARD_PREBUILT_DTBOIMAGE := $(KERNEL_PATH)/dtbo.img
+BOARD_PREBUILT_DTBIMAGE_DIR := $(KERNEL_PATH)/dtb
 
 # Filesystem
 TARGET_FS_CONFIG_GEN := $(COMMON_PATH)/configs/config.fs
@@ -91,66 +89,47 @@ BOARD_USES_GENERIC_KERNEL_IMAGE := true
 BOARD_USES_QCOM_MERGE_DTBS_SCRIPT := true
 TARGET_NEEDS_DTBOIMAGE := true
 
-BOARD_KERNEL_BASE        := 0x00000000
-BOARD_KERNEL_PAGESIZE    := 4096
+BOARD_KERNEL_PAGESIZE   := 4096
+BOARD_KERNEL_BASE       := 0x00000000
 BOARD_KERNEL_IMAGE_NAME := Image
 
-TARGET_KERNEL_ADDITIONAL_FLAGS := TARGET_PRODUCT=$(PRODUCT_DEVICE)
-TARGET_KERNEL_SOURCE := kernel/xiaomi/sm8450
-TARGET_KERNEL_CONFIG := \
-    gki_defconfig \
-    vendor/waipio_GKI.config \
-    vendor/xiaomi_GKI.config \
-    vendor/$(PRODUCT_DEVICE)_GKI.config
+TARGET_NO_KERNEL_OVERRIDE := true
+TARGET_KERNEL_SOURCE := device/xiaomi/xiaomi13-kernel/kernel-headers
+PRODUCT_COPY_FILES += \
+	$(KERNEL_PATH)/kernel:kernel
 
 BOARD_BOOT_HEADER_VERSION := 4
 BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOT_HEADER_VERSION)
 
-BOARD_VENDOR_RAMDISK_FRAGMENTS := dlkm
-BOARD_VENDOR_RAMDISK_FRAGMENT.dlkm.KERNEL_MODULE_DIRS := top
+BOARD_INIT_BOOT_HEADER_VERSION := 4
+BOARD_MKBOOTIMG_INIT_ARGS += --header_version $(BOARD_INIT_BOOT_HEADER_VERSION)
 
 BOARD_KERNEL_CMDLINE := \
     video=vfb:640x400,bpp=32,memsize=3072000 \
     disable_dma32=on \
     mtdoops.fingerprint=$(LINEAGE_VERSION)
+
 BOARD_BOOTCONFIG := \
     androidboot.hardware=qcom \
     androidboot.memcg=1 \
-    androidboot.usbcontroller=a600000.dwc3
+    androidboot.usbcontroller=a600000.dwc3 \
+    androidboot.selinux=permissive
 
 # Kernel modules
-first_stage_modules := $(strip $(shell cat $(TARGET_KERNEL_SOURCE)/modules.list.msm.waipio))
-second_stage_modules := $(strip $(shell cat $(COMMON_PATH)/modules.list.second_stage))
-vendor_dlkm_exclusive_modules := $(strip $(shell cat $(COMMON_PATH)/modules.list.vendor_dlkm))
+BOARD_SYSTEM_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/system_dlkm/modules.load))
 
-BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD += $(first_stage_modules)
-BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD += $(first_stage_modules) $(second_stage_modules)
-BOARD_VENDOR_KERNEL_MODULES_LOAD += $(second_stage_modules) $(vendor_dlkm_exclusive_modules)
+BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/vendor_ramdisk/modules.load))
+BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(addprefix $(KERNEL_PATH)/vendor_ramdisk/, $(BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD))
+BOARD_VENDOR_RAMDISK_KERNEL_MODULES_BLOCKLIST_FILE := $(KERNEL_PATH)/vendor_ramdisk/modules.blocklist
 
-BOOT_KERNEL_MODULES += $(first_stage_modules) $(second_stage_modules)
+BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/vendor_ramdisk/modules.load.recovery))
+RECOVERY_MODULES := $(addprefix $(KERNEL_PATH)/vendor_ramdisk/, $(BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD))
 
-BOARD_VENDOR_KERNEL_MODULES_BLOCKLIST_FILE := $(TARGET_KERNEL_SOURCE)/modules.vendor_blocklist.msm.waipio
-BOARD_VENDOR_RAMDISK_KERNEL_MODULES_BLOCKLIST_FILE := $(BOARD_VENDOR_KERNEL_MODULES_BLOCKLIST_FILE)
+BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(sort $(BOARD_VENDOR_RAMDISK_KERNEL_MODULES) $(RECOVERY_MODULES))
 
-TARGET_KERNEL_EXT_MODULE_ROOT := kernel/xiaomi/sm8450-modules
-TARGET_KERNEL_EXT_MODULES := \
-	qcom/opensource/mmrm-driver \
-	qcom/opensource/audio-kernel \
-	qcom/opensource/camera-kernel \
-	qcom/opensource/cvp-kernel \
-	qcom/opensource/dataipa/drivers/platform/msm \
-	qcom/opensource/datarmnet/core \
-	qcom/opensource/datarmnet-ext/aps \
-	qcom/opensource/datarmnet-ext/offload \
-	qcom/opensource/datarmnet-ext/shs \
-	qcom/opensource/datarmnet-ext/perf \
-	qcom/opensource/datarmnet-ext/perf_tether \
-	qcom/opensource/datarmnet-ext/sch \
-	qcom/opensource/datarmnet-ext/wlan \
-	qcom/opensource/display-drivers/msm \
-	qcom/opensource/eva-kernel \
-	qcom/opensource/video-driver \
-	qcom/opensource/wlan/qcacld-3.0
+BOARD_VENDOR_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/vendor_dlkm/modules.load))
+BOARD_VENDOR_KERNEL_MODULES := $(addprefix $(KERNEL_PATH)/vendor_dlkm/, $(BOARD_VENDOR_KERNEL_MODULES_LOAD))
+BOARD_VENDOR_KERNEL_MODULES_BLOCKLIST_FILE :=  $(KERNEL_PATH)/vendor_dlkm/modules.blocklist
 
 # Lineage Health
 TARGET_HEALTH_CHARGING_CONTROL_SUPPORTS_BYPASS := false
@@ -159,27 +138,29 @@ TARGET_HEALTH_CHARGING_CONTROL_SUPPORTS_BYPASS := false
 BOARD_USES_METADATA_PARTITION := true
 
 # Partitions
-BOARD_FLASH_BLOCK_SIZE := 0x020000 # (BOARD_KERNEL_PAGESIZE * 64)
-BOARD_BOOTIMAGE_PARTITION_SIZE := 0x0C000000
-BOARD_DTBOIMG_PARTITION_SIZE := 0x01800000
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x06400000
-BOARD_SUPER_PARTITION_SIZE := 9126805504 # 0x220000000
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 239033364480 # 0x37A77FB000
-BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 0x06000000
+BOARD_FLASH_BLOCK_SIZE := 262144
+BOARD_BOOTIMAGE_PARTITION_SIZE := 201326592
+BOARD_DTBOIMG_PARTITION_SIZE := 25165824
+BOARD_INIT_BOOT_IMAGE_PARTITION_SIZE := 8388608
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 104857600
+BOARD_SUPER_PARTITION_SIZE := 9663676416
+BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 100663296
 
 BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
-BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := odm product system system_ext vendor vendor_dlkm
-BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 9122611200 # 0x21FC00000 # BOARD_SUPER_PARTITION_SIZE - overhead (4MiB)
+BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := odm product system system_dlkm system_ext vendor vendor_dlkm
+BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 9659482112
 
-BOARD_ODMIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_PRODUCTIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_SYSTEM_EXTIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_VENDOR_DLKMIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_ODMIMAGE_FILE_SYSTEM_TYPE := erofs
+BOARD_PRODUCTIMAGE_FILE_SYSTEM_TYPE := erofs
+BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := erofs
+BOARD_SYSTEM_DLKMIMAGE_FILE_SYSTEM_TYPE := erofs
+BOARD_SYSTEM_EXTIMAGE_FILE_SYSTEM_TYPE := erofs
+BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := erofs
+BOARD_VENDOR_DLKMIMAGE_FILE_SYSTEM_TYPE := erofs
 
 TARGET_COPY_OUT_ODM := odm
 TARGET_COPY_OUT_PRODUCT := product
+TARGET_COPY_OUT_SYSTEM_DLKM := system_dlkm
 TARGET_COPY_OUT_SYSTEM_EXT := system_ext
 TARGET_COPY_OUT_VENDOR := vendor
 TARGET_COPY_OUT_VENDOR_DLKM := vendor_dlkm
@@ -188,7 +169,7 @@ TARGET_COPY_OUT_VENDOR_DLKM := vendor_dlkm
 
 # Platform
 BOARD_USES_QCOM_HARDWARE := true
-TARGET_BOARD_PLATFORM := taro
+TARGET_BOARD_PLATFORM := kalama
 
 # Power
 TARGET_POWERHAL_MODE_EXT := $(COMMON_PATH)/power/power-mode.cpp
@@ -202,15 +183,15 @@ SOONG_CONFIG_XIAOMI_POWERSHARE_WIRELESS_TX_ENABLE_PATH := /sys/class/qcom-batter
 TARGET_ODM_PROP += $(COMMON_PATH)/properties/odm.prop
 TARGET_PRODUCT_PROP += $(COMMON_PATH)/properties/product.prop
 TARGET_SYSTEM_PROP += $(COMMON_PATH)/properties/system.prop
-TARGET_SYSTEM_EXT_PROP += $(COMMON_PATH)/properties/system_ext.prop
 TARGET_VENDOR_PROP += $(COMMON_PATH)/properties/vendor.prop
 
 # Recovery
-TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/rootdir/etc/recovery.fstab
+TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/rootdir/etc/fstab.qcom
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 BOARD_EXCLUDE_KERNEL_FROM_RECOVERY_IMAGE := true
+TARGET_RECOVERY_UI_MARGIN_HEIGHT := 80
 
 # RIL
 ENABLE_VENDOR_RIL_SERVICE := true
@@ -228,41 +209,36 @@ BOARD_VENDOR_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/vendor
 # VINTF
 DEVICE_MATRIX_FILE := hardware/qcom-caf/common/compatibility_matrix.xml
 
-DEVICE_MANIFEST_SKUS := taro diwali cape ukee
-$(foreach sku, $(call to-upper, $(DEVICE_MANIFEST_SKUS)), \
-    $(eval DEVICE_MANIFEST_$(sku)_FILES := \
-        $(COMMON_PATH)/vintf/manifest.xml \
-        $(COMMON_PATH)/vintf/manifest_xiaomi.xml \
-        $(if $(TARGET_NFC_SUPPORTED_SKUS),,$(COMMON_PATH)/vintf/manifest_nfc.xml) \
-    ))
-
-ifneq ($(TARGET_NFC_SUPPORTED_SKUS),)
-ODM_MANIFEST_SKUS += $(TARGET_NFC_SUPPORTED_SKUS)
-$(foreach nfc_sku, $(call to-upper, $(TARGET_NFC_SUPPORTED_SKUS)), \
-    $(eval ODM_MANIFEST_$(nfc_sku)_FILES += $(COMMON_PATH)/vintf/manifest_nfc.xml))
-endif
+DEVICE_MANIFEST_SKUS := kalama
+DEVICE_MANIFEST_KALAMA_FILES += $(COMMON_PATH)/vintf/manifest_kalama.xml
+DEVICE_MANIFEST_FILE += $(COMMON_PATH)/vintf/manifest_xiaomi.xml
 
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := \
     hardware/qcom-caf/common/vendor_framework_compatibility_matrix.xml \
     hardware/xiaomi/vintf/xiaomi_framework_compatibility_matrix.xml \
     vendor/lineage/config/device_framework_matrix.xml
 
-DEVICE_FRAMEWORK_MANIFEST_FILE += $(COMMON_PATH)/vintf/framework_manifest.xml
+DEVICE_FRAMEWORK_MANIFEST_FILE += $(COMMON_PATH)/vintf/framework_matrix_xiaomi.xml
 
 # Verified Boot
 BOARD_AVB_ENABLE := true
 BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3
-BOARD_AVB_RECOVERY_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
-BOARD_AVB_RECOVERY_ALGORITHM := SHA256_RSA2048
-BOARD_AVB_RECOVERY_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
-BOARD_AVB_RECOVERY_ROLLBACK_INDEX_LOCATION := 1
-BOARD_AVB_VBMETA_SYSTEM := system system_ext product
+BOARD_AVB_VBMETA_SYSTEM := system system_dlkm system_ext product
 BOARD_AVB_VBMETA_SYSTEM_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
 BOARD_AVB_VBMETA_SYSTEM_ALGORITHM := SHA256_RSA2048
 BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
-BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX_LOCATION := 2
-
+BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX_LOCATION := 1
 BOARD_MOVE_GSI_AVB_KEYS_TO_VENDOR_BOOT := true
+
+BOARD_AVB_BOOT_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
+BOARD_AVB_BOOT_ALGORITHM := SHA256_RSA2048
+BOARD_AVB_BOOT_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
+BOARD_AVB_BOOT_ROLLBACK_INDEX_LOCATION := 2
+
+BOARD_AVB_INIT_BOOT_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
+BOARD_AVB_INIT_BOOT_ALGORITHM := SHA256_RSA2048
+BOARD_AVB_INIT_BOOT_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
+BOARD_AVB_INIT_BOOT_ROLLBACK_INDEX_LOCATION := 4
 
 # WiFi
 BOARD_WLAN_DEVICE := qcwcn

@@ -1,0 +1,17 @@
+# Copyright (C) 2023-2024 Paranoid Android
+#
+# SPDX-License-Identifier: Apache-2.0
+
+on property:vendor.post_boot.parsed=1
+    exec u:r:vendor_qti_init_shell:s0 -- /vendor/bin/init.mi_perf.sh
+
+    # Set default thermal profile
+    write /sys/class/thermal/thermal_message/sconfig 0
+
+    # CPUFreq
+    write /sys/devices/system/cpu/cpufreq/policy0/walt/up_rate_limit_us 500
+    write /sys/devices/system/cpu/cpufreq/policy0/walt/down_rate_limit_us 20000
+    write /sys/devices/system/cpu/cpufreq/policy4/walt/up_rate_limit_us 500
+    write /sys/devices/system/cpu/cpufreq/policy4/walt/down_rate_limit_us 10000
+    write /sys/devices/system/cpu/cpufreq/policy7/walt/up_rate_limit_us 500
+    write /sys/devices/system/cpu/cpufreq/policy7/walt/down_rate_limit_us 5000
