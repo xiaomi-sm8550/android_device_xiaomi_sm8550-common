@@ -13,6 +13,9 @@ KERNEL_PATH := device/xiaomi/xiaomi13-kernel
 BUILD_BROKEN_DUP_RULES := true
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
 
+# OTA
+TARGET_OTA_ASSERT_DEVICE := fuxi|nuwa
+
 # A/B
 AB_OTA_UPDATER := true
 
