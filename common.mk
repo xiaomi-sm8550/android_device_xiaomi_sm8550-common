@@ -131,7 +131,7 @@ PRODUCT_PACKAGES_DEBUG += \
 # Camera
 PRODUCT_PACKAGES += \
     android.hardware.camera.common@1.0.vendor \
-    android.hardware.camera.common-V1-ndk.so \
+    android.hardware.camera.common-V1-ndk.vendor \
     android.hardware.camera.provider@2.7.vendor \
     android.hardware.camera.provider@2.4-external \
     camera.device@1.0-impl \
@@ -529,7 +529,7 @@ PRODUCT_COPY_FILES += \
 # WiFi
 PRODUCT_PACKAGES += \
     android.hardware.wifi-service \
-    android.hardware.wifi.supplicant-V1-ndk.so \
+    android.hardware.wifi.supplicant-V1-ndk.vendor \
     android.hardware.wifi.hostapd@1.0.vendor \
     hostapd \
     hostapd_cli \
