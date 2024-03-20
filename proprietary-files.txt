@@ -1996,6 +1996,7 @@ vendor/lib64/libsdmcore.so
 vendor/lib64/libsdmdal.so
 vendor/lib64/libsdmextension.so
 vendor/lib64/libsdmutils.so
+vendor/lib64/libtinyxml2_1.so
 
 # Display (Calibration)
 odm/etc/display/qdcm_calib_data_xiaomi_m3_38_0c_0a_sec_cmd_mode_dsc_dsi_panel.json
