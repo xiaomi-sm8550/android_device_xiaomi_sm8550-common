@@ -136,6 +136,7 @@ PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.7.vendor \
     android.hardware.camera.provider@2.4-legacy \
     android.hardware.camera.provider@2.4-external \
+    android.hardware.camera.provider-V1-ndk.vendor \
     camera.device@1.0-impl \
     libcamera2ndk_vendor \
     vendor.qti.hardware.camera.aon@1.0.vendor \
