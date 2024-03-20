@@ -286,7 +286,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libavservices_minijail \
     libavservices_minijail.vendor \
-    libOmxCore \
     libcodec2_hidl@1.0.vendor \
     libcodec2_vndk.vendor \
     libstagefrighthw \
@@ -371,6 +370,14 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libprotobuf-cpp-full-3.9.1-vendorcompat \
     libprotobuf-cpp-lite-3.9.1-vendorcompat
+
+# OMX
+PRODUCT_PACKAGES += \
+    libcodec2_hidl@1.2.vendor \
+    libcodec2_hidl_plugin \
+    libcodec2_vndk.vendor \
+    libOmxCore \
+    libmm-omxcore
 
 # QTI
 PRODUCT_PACKAGES += \
