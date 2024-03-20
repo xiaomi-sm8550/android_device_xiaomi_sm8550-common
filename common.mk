@@ -132,7 +132,9 @@ PRODUCT_PACKAGES_DEBUG += \
 PRODUCT_PACKAGES += \
     android.hardware.camera.common@1.0.vendor \
     android.hardware.camera.common-V1-ndk.vendor \
+    android.hardware.camera.device-V1-ndk.vendor \
     android.hardware.camera.provider@2.7.vendor \
+    android.hardware.camera.provider@2.4-legacy \
     android.hardware.camera.provider@2.4-external \
     camera.device@1.0-impl \
     libcamera2ndk_vendor \
