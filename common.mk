@@ -65,6 +65,10 @@ BOARD_SHIPPING_API_LEVEL := 33
 PRODUCT_PACKAGES += \
     android.hardware.atrace@1.0-service
 
+# Additional native libraries
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/public.libraries-qti.txt:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/public.libraries-qti.txt
+
 # Audio
 PRODUCT_PACKAGES += \
     android.media.audio.common.types-V1-cpp.vendor \
