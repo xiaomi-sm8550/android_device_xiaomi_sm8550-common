@@ -40,9 +40,7 @@ odm/etc/acdbdata/Forte/Forte_acdb_cal.acdb:odm/overlayfs/nuwa/odm/etc/acdbdata/F
 odm/etc/acdbdata/Forte/Forte_workspaceFileXml.qwsp:odm/overlayfs/nuwa/odm/etc/acdbdata/Forte/Forte_workspaceFileXml.qwsp|a16d2ac2b19447a35cdeaa3e25bbed80be7fa6f8
 
 # ADSP
-vendor/bin/adsprpcd
 vendor/bin/loadalgo
-vendor/etc/init/vendor.qti.adsprpc-guestos-service.rc
 vendor/lib64/libadsp_default_listener.so
 vendor/lib64/libadsprpc.so
 vendor/lib64/libloadalgo_stub.so
@@ -176,27 +174,52 @@ odm/etc/audio/misound_res_spk_power_video.bin:odm/overlayfs/nuwa/odm/etc/audio/m
 vendor/lib64/hw/com.dsi.ant@1.0-impl.so
 
 # AGM
-odm/lib64/libagmdevice.so
-vendor/bin/agmcap
-vendor/bin/agmcompresscap
-vendor/bin/agmcompressplay
-vendor/bin/agmhostless
-vendor/bin/agmplay
-vendor/bin/agmvoiceui
-vendor/bin/cplay
-vendor/lib64/libagm.so
-vendor/lib64/libagm_compress_plugin.so
-vendor/lib64/libagm_mixer_plugin.so
-vendor/lib64/libagm_pcm_plugin.so
-vendor/lib64/libagmclient.so
-vendor/lib64/libagmmixer.so
-vendor/lib64/vendor.qti.hardware.AGMIPC@1.0-impl.so
-vendor/lib64/vendor.qti.hardware.AGMIPC@1.0.so
+-vendor/lib/libagm.so
+-vendor/lib/vendor.qti.hardware.AGMIPC@1.0-impl.so
+-vendor/lib64/libagm.so
+-vendor/lib64/vendor.qti.hardware.AGMIPC@1.0-impl.so
 
 # Audio
 odm/etc/audio/silent-3sec.wav
 odm/lib64/libaudioroute_ext.so
 odm/lib64/libcrussp.so
+vendor/lib/hw/audio.primary.kalama.so
+vendor/lib/lib_misound_asc.so
+vendor/lib/libadm.so
+vendor/lib/libar-acdb.so
+vendor/lib/libar-gpr.so
+-vendor/lib/libar-gsl.so
+-vendor/lib/libar-pal.so
+-vendor/lib/libats.so
+vendor/lib/libaudio_log_utils.so
+vendor/lib/libaudiochargerlistener.so
+vendor/lib/libaudiocloudctrl.so
+vendor/lib/libbatterylistener.so
+vendor/lib/libcapiv2svacnnvendor.so
+vendor/lib/libcapiv2svarnnvendor.so
+vendor/lib/libcapiv2udk7vendor.so
+vendor/lib/libcapiv2uvvendor.so
+vendor/lib/libdlbpreg.so
+vendor/lib/libfcsam.so
+vendor/lib/libfmpal.so
+vendor/lib/libhfp_pal.so
+vendor/lib/libkaraokepal.so
+vendor/lib/liblx-ar_util.so
+-vendor/lib/liblx-osal.so
+vendor/lib/libmcs.so
+vendor/lib/libmisfpsop.so
+vendor/lib/libmisight.so
+vendor/lib/libmisoundsa.so
+vendor/lib/libmispowerop.so
+vendor/lib/libpal_net_if.so
+vendor/lib/libpalclient.so
+vendor/lib/libqtigefar.so
+vendor/lib/libresampler.so
+vendor/lib/libsndcardparser.so
+vendor/lib/libspatializerparamstorage.so
+vendor/lib/libswspatializer_ext.so
+vendor/lib/libxlog.so
+-vendor/lib/vendor.qti.hardware.pal@1.0-impl.so
 vendor/etc/models/acd/event.eai
 vendor/etc/models/acd/music.eai
 vendor/etc/models/acd/speech.eai
@@ -206,9 +229,9 @@ vendor/lib64/lib_misound_asc.so
 vendor/lib64/libadm.so
 vendor/lib64/libar-acdb.so
 vendor/lib64/libar-gpr.so
-vendor/lib64/libar-gsl.so
-vendor/lib64/libar-pal.so
-vendor/lib64/libats.so
+-vendor/lib64/libar-gsl.so
+-vendor/lib64/libar-pal.so
+-vendor/lib64/libats.so
 vendor/lib64/libaudio_log_utils.so
 vendor/lib64/libaudiochargerlistener.so
 vendor/lib64/libaudiocloudctrl.so
@@ -223,7 +246,7 @@ vendor/lib64/libfmpal.so
 vendor/lib64/libhfp_pal.so
 vendor/lib64/libkaraokepal.so
 vendor/lib64/liblx-ar_util.so
-vendor/lib64/liblx-osal.so
+-vendor/lib64/liblx-osal.so
 vendor/lib64/libmcs.so
 vendor/lib64/libmisfpsop.so
 vendor/lib64/libmisight.so
@@ -237,8 +260,7 @@ vendor/lib64/libsndcardparser.so
 vendor/lib64/libspatializerparamstorage.so
 vendor/lib64/libswspatializer_ext.so
 vendor/lib64/libxlog.so
-vendor/lib64/vendor.qti.hardware.pal@1.0-impl.so
-vendor/lib64/vendor.qti.hardware.pal@1.0.so
+-vendor/lib64/vendor.qti.hardware.pal@1.0-impl.so
 
 # Audio (Configs)
 odm/etc/audio/sku_kalama/mixer_paths_kalama_mtp.xml

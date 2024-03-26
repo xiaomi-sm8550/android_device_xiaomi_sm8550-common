@@ -83,7 +83,11 @@ PRODUCT_PACKAGES += \
     audioadsprpcd \
     audio.bluetooth.default \
     audio.r_submix.default \
-    audio.usb.default
+    audio.usb.default \
+    libagm_compress_plugin \
+    libagm_mixer_plugin \
+    libagm_pcm_plugin \
+    libtinycompress
 
 PRODUCT_PACKAGES += \
     libqcompostprocbundle \
