@@ -5,7 +5,7 @@
 #
 
 # Inherit from the proprietary version
-include vendor/xiaomi/xiaomi13/BoardConfigVendor.mk
+include vendor/xiaomi/sm8550-common/BoardConfigVendor.mk
 
 COMMON_PATH := device/xiaomi/sm8550-common
 KERNEL_PATH := device/xiaomi/xiaomi13-kernel
