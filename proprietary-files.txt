@@ -20,7 +20,6 @@ odm/etc/audio/silent-3sec.wav
 odm/lib64/libaudioroute_ext.so
 odm/lib64/libcrussp.so
 vendor/lib/hw/audio.primary.kalama.so
-vendor/lib/lib_misound_asc.so
 vendor/lib/libadm.so
 vendor/lib/libar-acdb.so
 vendor/lib/libar-gpr.so
@@ -36,7 +35,6 @@ vendor/lib/libcapiv2svarnnvendor.so
 vendor/lib/libcapiv2udk7vendor.so
 vendor/lib/libcapiv2uvvendor.so
 vendor/lib/libdlbpreg.so
-vendor/lib/libfcsam.so
 vendor/lib/libfmpal.so
 vendor/lib/libhfp_pal.so
 vendor/lib/libkaraokepal.so
@@ -847,7 +845,6 @@ vendor/etc/dolby/dax-default.xml
 vendor/etc/init/dolbycodec2.rc
 vendor/etc/init/vendor.dolby.media.c2@1.0-service.rc
 vendor/etc/media_codecs_dolby_audio.xml
-vendor/lib/libcodec2_soft_common.so
 vendor/lib64/c2.dolby.client.so
 vendor/lib64/c2.dolby.hevc.dec.so
 vendor/lib64/c2.dolby.hevc.enc.so
