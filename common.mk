@@ -71,7 +71,7 @@ PRODUCT_COPY_FILES += \
 
 # Audio
 PRODUCT_PACKAGES += \
-    android.media.audio.common.types-V1-cpp.vendor \
+    android.media.audio.common.types-V2-cpp \
     android.hardware.audio@7.1-impl \
     android.hardware.audio.effect@7.0-impl \
     android.hardware.audio.service \
