@@ -505,7 +505,6 @@ vendor/lib64/libGPreqcancel.so
 vendor/lib64/libGPreqcancel_svc.so
 vendor/lib64/libQSEEComAPI.so
 vendor/lib64/libbase64.so
-vendor/lib64/libcpion.so
 vendor/lib64/libdrmfs.so
 vendor/lib64/libdrmtime.so
 vendor/lib64/libdrmutils.so
@@ -517,7 +516,6 @@ vendor/lib64/librpmb.so
 vendor/lib64/libsecureui_svcsock.so
 vendor/lib64/libspl.so
 vendor/lib64/libssd.so
-vendor/lib64/libtrustedapploader.so
 vendor/lib64/vendor.qti.hardware.qseecom@1.0.so
 
 # DRM (Widevine)
@@ -866,13 +864,7 @@ odm/lib64/vendor.xiaomi.hardware.tidaservice@1.1.so
 odm/lib64/vendor.xiaomi.hardware.tidaservice@1.2.so
 
 # MMI
-vendor/bin/hw/vendor.qti.hardware.factory@1.0-service
 vendor/bin/mmid
-vendor/etc/init/vendor.qti.hardware.factory@1.0-service.rc
-vendor/etc/permissions/android.hardware.light.xml
-vendor/etc/permissions/vendor.qti.hardware.factory.xml
-vendor/lib64/vendor.qti.hardware.factory@1.0.so
-vendor/lib64/vendor.qti.hardware.factory@1.1.so
 
 # Modem Manager
 vendor/bin/modemManager
@@ -1475,12 +1467,6 @@ vendor/lib64/libssc_default_listener.so
 vendor/lib64/sensors.ssc.so
 vendor/lib64/vendor.qti.hardware.sensorscalibrate@1.0.so
 
-# SLA
-vendor/bin/hw/vendor.qti.sla.service@1.0-service
-vendor/etc/init/vendor.qti.sla.service@1.0-service.rc
-vendor/lib64/vendor.qti.sla.service@1.0-impl.so
-vendor/lib64/vendor.qti.sla.service@1.0.so
-
 # Soter
 mi_ext/product/app/QcomSoterService/QcomSoterService.apk:system_ext/app/QcomSoterService/QcomSoterService.apk|dae7de6141ae1467a4fdedf7bb7b64ec5ac7534a
 vendor/bin/hw/vendor.qti.hardware.soter@1.0-service
@@ -1527,20 +1513,12 @@ vendor/lib64/libQTEEConnector_vendor.so
 vendor/lib64/vendor.qti.hardware.qteeconnector@1.0.so
 
 # Trusted User Interface
-vendor/bin/hw/vendor.qti.hardware.trustedui@1.0-service-qti
-vendor/bin/hw/vendor.qti.hardware.tui_comm@1.0-service-qti
-vendor/bin/trusteduilistener
-vendor/etc/init/trusteduilistener.rc
-vendor/etc/init/vendor.qti.hardware.trustedui@1.0-service-qti.rc
-vendor/etc/init/vendor.qti.hardware.tui_comm@1.0-service-qti.rc
-vendor/lib64/libTouchInputVM.so
-vendor/lib64/libTrustedInput.so
-vendor/lib64/libTrustedInputTZ.so
-vendor/lib64/libTrustedInputUtils.so
 vendor/lib64/libTrustedUI.so
 vendor/lib64/libTrustedUITZ.so
 vendor/lib64/libTrustedUIVM.so
+vendor/lib64/libcpion.so
 vendor/lib64/libsi.so
+vendor/lib64/libtrustedapploader.so
 vendor/lib64/vendor.qti.hardware.trustedui@1.0.so
 vendor/lib64/vendor.qti.hardware.trustedui@1.1.so
 vendor/lib64/vendor.qti.hardware.trustedui@1.2.so

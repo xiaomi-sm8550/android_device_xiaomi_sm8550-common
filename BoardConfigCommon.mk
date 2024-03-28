@@ -225,17 +225,13 @@ SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/public
 BOARD_VENDOR_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/vendor
 
 # VINTF
-DEVICE_MANIFEST_SKUS := kalama
-DEVICE_MANIFEST_KALAMA_FILES := \
-    $(COMMON_PATH)/vintf/manifest_kalama.xml \
-    $(COMMON_PATH)/vintf/manifest_xiaomi.xml
-
+DEVICE_FRAMEWORK_MANIFEST_FILE += $(COMMON_PATH)/vintf/framework_manifest.xml
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := \
-    $(COMMON_PATH)/vintf/framework_matrix_xiaomi.xml \
-    hardware/qcom-caf/common/vendor_framework_compatibility_matrix.xml \
+    $(COMMON_PATH)/vintf/device_framework_matrix.xml \
     vendor/lineage/config/device_framework_matrix.xml
-
 DEVICE_MATRIX_FILE := hardware/qcom-caf/common/compatibility_matrix.xml
+DEVICE_MANIFEST_SKUS := kalama
+DEVICE_MANIFEST_KALAMA_FILES += $(COMMON_PATH)/vintf/manifest_kalama.xml
 
 # Verified Boot
 BOARD_AVB_ENABLE := true
