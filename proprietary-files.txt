@@ -12,8 +12,10 @@ vendor/lib64/hw/com.dsi.ant@1.0-impl.so
 # AGM
 -vendor/lib/libagm.so
 -vendor/lib/vendor.qti.hardware.AGMIPC@1.0-impl.so
+vendor/lib/vendor.qti.hardware.AGMIPC@1.0.so
 -vendor/lib64/libagm.so
 -vendor/lib64/vendor.qti.hardware.AGMIPC@1.0-impl.so
+vendor/lib64/vendor.qti.hardware.AGMIPC@1.0.so
 
 # Audio
 odm/etc/audio/silent-3sec.wav
@@ -54,6 +56,7 @@ vendor/lib/libspatializerparamstorage.so
 vendor/lib/libswspatializer_ext.so
 vendor/lib/libxlog.so
 -vendor/lib/vendor.qti.hardware.pal@1.0-impl.so
+vendor/lib/vendor.qti.hardware.pal@1.0.so
 vendor/etc/models/acd/event.eai
 vendor/etc/models/acd/music.eai
 vendor/etc/models/acd/speech.eai
@@ -95,6 +98,7 @@ vendor/lib64/libspatializerparamstorage.so
 vendor/lib64/libswspatializer_ext.so
 vendor/lib64/libxlog.so
 -vendor/lib64/vendor.qti.hardware.pal@1.0-impl.so
+vendor/lib64/vendor.qti.hardware.pal@1.0.so
 
 # Audio (Configs)
 odm/etc/audio/sku_kalama/mixer_paths_kalama_mtp.xml
